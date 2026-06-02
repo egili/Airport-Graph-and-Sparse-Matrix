@@ -5,24 +5,24 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef struct Node {
-    int col;
-    void *value;
-    struct Node *left;
-    struct Node *right;
-} Node;
+typedef struct No {
+    int coluna;
+    void *valor;
+    struct No *esquerda;
+    struct No *direita;
+} No;
 
 typedef struct {
-    Node **rows;
-    int rows_count;
-    int cols_count;
+    No **linhas;
+    int quantidade_linhas;
+    int quantidade_colunas;
 } MatrizEsparsa;
 
 MatrizEsparsa* criar_matriz_esparsa();
-void expandir_matriz_esparsa(MatrizEsparsa *m, int new_dim);
-bool definir_valor(MatrizEsparsa *m, int row, int col, void *value);
-void* obter_valor(MatrizEsparsa *m, int row, int col);
-bool remover_valor(MatrizEsparsa *m, int row, int col);
-void destruir_matriz_esparsa(MatrizEsparsa *m, void (*free_value)(void*));
+void expandir_matriz_esparsa(MatrizEsparsa *matriz, int nova_dimensao);
+bool definir_valor_matriz(MatrizEsparsa *matriz, int linha, int coluna, void *valor);
+void* obter_valor_matriz(MatrizEsparsa *matriz, int linha, int coluna);
+bool remover_valor_matriz(MatrizEsparsa *matriz, int linha, int coluna);
+void destruir_matriz_esparsa(MatrizEsparsa *matriz, void (*liberar_valor)(void*));
 
 #endif // MATRIZ_ESPARSA_H

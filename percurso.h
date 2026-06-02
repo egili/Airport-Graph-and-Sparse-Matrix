@@ -15,8 +15,8 @@ typedef struct {
 } Percurso;
 
 Percurso* criar_percurso();
-bool adicionar_ao_percurso(Percurso *p, Aeroporto *a, Voo *v);
-void imprimir_percurso(Percurso *p);
-void destruir_percurso(Percurso *p);
+bool adicionar_ao_percurso(Percurso *percurso, Aeroporto *aeroporto, Voo *voo);
+void imprimir_percurso(Percurso *percurso);
+void destruir_percurso(Percurso *percurso);
 
 #endif // PERCURSO_H

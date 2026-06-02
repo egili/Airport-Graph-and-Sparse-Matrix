@@ -1,47 +1,47 @@
 #include "vetor_dinamico.h"
 
 VetorDinamico* criar_vetor() {
-    VetorDinamico *v = (VetorDinamico*)malloc(sizeof(VetorDinamico));
-    if (!v) return NULL;
-    v->capacity = 4;
-    v->size = 0;
-    v->items = (void**)malloc(v->capacity * sizeof(void*));
-    if (!v->items) {
-        free(v);
+    VetorDinamico *vetor = (VetorDinamico*)malloc(sizeof(VetorDinamico));
+    if (!vetor) return NULL;
+    vetor->capacidade = 4;
+    vetor->tamanho = 0;
+    vetor->itens = (void**)malloc(vetor->capacidade * sizeof(void*));
+    if (!vetor->itens) {
+        free(vetor);
         return NULL;
     }
-    return v;
+    return vetor;
 }
 
-bool inserir_vetor(VetorDinamico *v, void *item) {
-    if (v->size == v->capacity) {
-        size_t new_capacity = v->capacity * 2;
-        void **new_items = (void**)realloc(v->items, new_capacity * sizeof(void*));
-        if (!new_items) return false;
-        v->items = new_items;
-        v->capacity = new_capacity;
+bool inserir_vetor(VetorDinamico *vetor, void *item) {
+    if (vetor->tamanho == vetor->capacidade) {
+        size_t nova_capacidade = vetor->capacidade * 2;
+        void **novos_itens = (void**)realloc(vetor->itens, nova_capacidade * sizeof(void*));
+        if (!novos_itens) return false;
+        vetor->itens = novos_itens;
+        vetor->capacidade = nova_capacidade;
     }
-    v->items[v->size++] = item;
+    vetor->itens[vetor->tamanho++] = item;
     return true;
 }
 
-void* obter_vetor(VetorDinamico *v, size_t index) {
-    if (index >= v->size) return NULL;
-    return v->items[index];
+void* obter_vetor(VetorDinamico *vetor, size_t indice) {
+    if (indice >= vetor->tamanho) return NULL;
+    return vetor->itens[indice];
 }
 
-bool remover_vetor(VetorDinamico *v, size_t index) {
-    if (index >= v->size) return false;
+bool remover_vetor(VetorDinamico *vetor, size_t indice) {
+    if (indice >= vetor->tamanho) return false;
 
-    for (size_t i = index; i < v->size - 1; i++) {
-        v->items[i] = v->items[i + 1];
+    for (size_t i = indice; i < vetor->tamanho - 1; i++) {
+        vetor->itens[i] = vetor->itens[i + 1];
     }
-    v->size--;
+    vetor->tamanho--;
     return true;
 }
 
-void destruir_vetor(VetorDinamico *v) {
-    if (!v) return;
-    free(v->items);
-    free(v);
+void destruir_vetor(VetorDinamico *vetor) {
+    if (!vetor) return;
+    free(vetor->itens);
+    free(vetor);
 }

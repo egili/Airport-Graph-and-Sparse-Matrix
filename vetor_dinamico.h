@@ -6,15 +6,15 @@
 #include <stdbool.h>
 
 typedef struct {
-    void **items;
-    size_t size;
-    size_t capacity;
+    void **itens;
+    size_t tamanho;
+    size_t capacidade;
 } VetorDinamico;
 
 VetorDinamico* criar_vetor();
-bool inserir_vetor(VetorDinamico *v, void *item);
-void* obter_vetor(VetorDinamico *v, size_t index);
-bool remover_vetor(VetorDinamico *v, size_t index);
-void destruir_vetor(VetorDinamico *v);
+bool inserir_vetor(VetorDinamico *vetor, void *item);
+void* obter_vetor(VetorDinamico *vetor, size_t indice);
+bool remover_vetor(VetorDinamico *vetor, size_t indice);
+void destruir_vetor(VetorDinamico *vetor);
 
 #endif // VETOR_DINAMICO_H

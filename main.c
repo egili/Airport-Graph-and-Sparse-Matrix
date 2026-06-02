@@ -12,7 +12,7 @@ int main() {
     MalhaAerea *malha = criar_malha_aerea();
     inicializar_malha_padrao(malha);
     int opcao;
-    char cod1[10], cod2[10], num_voo[20], cidade[100];
+    char codigo1[10], codigo2[10], numero_voo[20], cidade[100];
     int duracao;
     double preco;
 
@@ -35,46 +35,46 @@ int main() {
         switch (opcao) {
             case 1:
                 printf("Codigo do Aeroporto (ex: GRU): ");
-                scanf("%3s", cod1);
+                scanf("%3s", codigo1);
                 limpar_buffer();
                 printf("Nome da Cidade: ");
                 fgets(cidade, 100, stdin);
                 cidade[strcspn(cidade, "\n")] = 0;
-                cadastrar_aeroporto(malha, cod1, cidade);
+                cadastrar_aeroporto(malha, codigo1, cidade);
                 break;
             case 2:
                 printf("Codigo Origem: ");
-                scanf("%3s", cod1);
+                scanf("%3s", codigo1);
                 printf("Codigo Destino: ");
-                scanf("%3s", cod2);
+                scanf("%3s", codigo2);
                 printf("Numero do Voo: ");
-                scanf("%19s", num_voo);
+                scanf("%19s", numero_voo);
                 printf("Duracao (min): ");
                 scanf("%d", &duracao);
                 printf("Preco: ");
                 scanf("%lf", &preco);
                 limpar_buffer();
-                cadastrar_voo(malha, cod1, cod2, num_voo, duracao, preco);
+                cadastrar_voo(malha, codigo1, codigo2, numero_voo, duracao, preco);
                 break;
             case 3:
                 printf("Numero do Voo para remover: ");
-                scanf("%19s", num_voo);
+                scanf("%19s", numero_voo);
                 limpar_buffer();
-                remover_voo_por_numero(malha, num_voo);
+                remover_voo_por_numero(malha, numero_voo);
                 break;
             case 4:
                 printf("Codigo do Aeroporto de Origem: ");
-                scanf("%3s", cod1);
+                scanf("%3s", codigo1);
                 limpar_buffer();
-                listar_voos_origem(malha, cod1);
+                listar_voos_origem(malha, codigo1);
                 break;
             case 5:
                 printf("Codigo Aeroporto Inicio: ");
-                scanf("%3s", cod1);
+                scanf("%3s", codigo1);
                 printf("Codigo Aeroporto Fim: ");
-                scanf("%3s", cod2);
+                scanf("%3s", codigo2);
                 limpar_buffer();
-                buscar_trajetos(malha, cod1, cod2);
+                buscar_trajetos(malha, codigo1, codigo2);
                 break;
             case 0:
                 printf("Saindo do sistema...\n");

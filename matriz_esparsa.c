@@ -1,131 +1,131 @@
 #include "matriz_esparsa.h"
 
 MatrizEsparsa* criar_matriz_esparsa() {
-    MatrizEsparsa *m = (MatrizEsparsa*)malloc(sizeof(MatrizEsparsa));
-    if (!m) return NULL;
-    m->rows = NULL;
-    m->rows_count = 0;
-    m->cols_count = 0;
-    return m;
+    MatrizEsparsa *matriz = (MatrizEsparsa*)malloc(sizeof(MatrizEsparsa));
+    if (!matriz) return NULL;
+    matriz->linhas = NULL;
+    matriz->quantidade_linhas = 0;
+    matriz->quantidade_colunas = 0;
+    return matriz;
 }
 
-void expandir_matriz_esparsa(MatrizEsparsa *m, int new_dim) {
-    if (new_dim <= m->rows_count) return;
+void expandir_matriz_esparsa(MatrizEsparsa *matriz, int nova_dimensao) {
+    if (nova_dimensao <= matriz->quantidade_linhas) return;
 
-    Node **new_rows = (Node**)realloc(m->rows, new_dim * sizeof(Node*));
-    if (!new_rows) return;
+    No **novas_linhas = (No**)realloc(matriz->linhas, nova_dimensao * sizeof(No*));
+    if (!novas_linhas) return;
 
-    for (int i = m->rows_count; i < new_dim; i++) {
-        new_rows[i] = NULL;
+    for (int i = matriz->quantidade_linhas; i < nova_dimensao; i++) {
+        novas_linhas[i] = NULL;
     }
 
-    m->rows = new_rows;
-    m->rows_count = new_dim;
-    m->cols_count = new_dim;
+    matriz->linhas = novas_linhas;
+    matriz->quantidade_linhas = nova_dimensao;
+    matriz->quantidade_colunas = nova_dimensao;
 }
 
-static Node* criar_node(int col, void *value) {
-    Node *n = (Node*)malloc(sizeof(Node));
-    if (!n) return NULL;
-    n->col = col;
-    n->value = value;
-    n->left = n->right = NULL;
-    return n;
+static No* criar_no(int coluna, void *valor) {
+    No *no = (No*)malloc(sizeof(No));
+    if (!no) return NULL;
+    no->coluna = coluna;
+    no->valor = valor;
+    no->esquerda = no->direita = NULL;
+    return no;
 }
 
-static Node* inserir_na_arvore(Node *root, int col, void *value) {
-    if (!root) return criar_node(col, value);
+static No* inserir_na_arvore(No *raiz, int coluna, void *valor) {
+    if (!raiz) return criar_no(coluna, valor);
 
-    if (col < root->col) {
-        root->left = inserir_na_arvore(root->left, col, value);
-    } else if (col > root->col) {
-        root->right = inserir_na_arvore(root->right, col, value);
+    if (coluna < raiz->coluna) {
+        raiz->esquerda = inserir_na_arvore(raiz->esquerda, coluna, valor);
+    } else if (coluna > raiz->coluna) {
+        raiz->direita = inserir_na_arvore(raiz->direita, coluna, valor);
     } else {
-        root->value = value; 
+        raiz->valor = valor;
     }
-    return root;
+    return raiz;
 }
 
-static Node* buscar_menor_indice_coluna(Node *root) {
-    Node *current = root;
-    while (current && current->left) {
-        current = current->left;
+static No* buscar_menor_indice_coluna(No *raiz) {
+    No *atual = raiz;
+    while (atual && atual->esquerda) {
+        atual = atual->esquerda;
     }
-    return current;
+    return atual;
 }
 
-static Node* remover_da_arvore(Node *root, int col) {
-    if (!root) return NULL;
+static No* remover_da_arvore(No *raiz, int coluna) {
+    if (!raiz) return NULL;
 
-    if (col < root->col) {
-        root->left = remover_da_arvore(root->left, col);
-    } else if (col > root->col) {
-        root->right = remover_da_arvore(root->right, col);
+    if (coluna < raiz->coluna) {
+        raiz->esquerda = remover_da_arvore(raiz->esquerda, coluna);
+    } else if (coluna > raiz->coluna) {
+        raiz->direita = remover_da_arvore(raiz->direita, coluna);
     } else {
-        if (!root->left) {
-            Node *temp = root->right;
-            free(root);
-            return temp;
-        } else if (!root->right) {
-            Node *temp = root->left;
-            free(root);
-            return temp;
+        if (!raiz->esquerda) {
+            No *temporario = raiz->direita;
+            free(raiz);
+            return temporario;
+        } else if (!raiz->direita) {
+            No *temporario = raiz->esquerda;
+            free(raiz);
+            return temporario;
         }
 
-        Node *temp = buscar_menor_indice_coluna(root->right);
-        root->col = temp->col;
-        root->value = temp->value;
-        root->right = remover_da_arvore(root->right, temp->col);
+        No *temporario = buscar_menor_indice_coluna(raiz->direita);
+        raiz->coluna = temporario->coluna;
+        raiz->valor = temporario->valor;
+        raiz->direita = remover_da_arvore(raiz->direita, temporario->coluna);
     }
-    return root;
+    return raiz;
 }
 
-static void liberar_arvore_voos(Node *root, void (*free_value)(void*)) {
-    if (!root) return;
-    liberar_arvore_voos(root->left, free_value);
-    liberar_arvore_voos(root->right, free_value);
-    if (free_value) free_value(root->value);
-    free(root);
+static void liberar_arvore_voos(No *raiz, void (*liberar_valor)(void*)) {
+    if (!raiz) return;
+    liberar_arvore_voos(raiz->esquerda, liberar_valor);
+    liberar_arvore_voos(raiz->direita, liberar_valor);
+    if (liberar_valor) liberar_valor(raiz->valor);
+    free(raiz);
 }
 
-bool definir_valor(MatrizEsparsa *m, int row, int col, void *value) {
-    if (row < 0 || col < 0) return false;
+bool definir_valor_matriz(MatrizEsparsa *matriz, int linha, int coluna, void *valor) {
+    if (linha < 0 || coluna < 0) return false;
 
-    int max_idx = (row > col) ? row : col;
-    expandir_matriz_esparsa(m, max_idx + 1);
+    int maior_indice = (linha > coluna) ? linha : coluna;
+    expandir_matriz_esparsa(matriz, maior_indice + 1);
 
-    m->rows[row] = inserir_na_arvore(m->rows[row], col, value);
+    matriz->linhas[linha] = inserir_na_arvore(matriz->linhas[linha], coluna, valor);
     return true;
 }
 
-void* obter_valor(MatrizEsparsa *m, int row, int col) {
-    if (!m || row < 0 || row >= m->rows_count || col < 0 || col >= m->cols_count) {
+void* obter_valor_matriz(MatrizEsparsa *matriz, int linha, int coluna) {
+    if (!matriz || linha < 0 || linha >= matriz->quantidade_linhas || coluna < 0 || coluna >= matriz->quantidade_colunas) {
         return NULL;
     }
 
-    Node *current = m->rows[row];
-    while (current) {
-        if (col < current->col) current = current->left;
-        else if (col > current->col) current = current->right;
-        else return current->value;
+    No *atual = matriz->linhas[linha];
+    while (atual) {
+        if (coluna < atual->coluna) atual = atual->esquerda;
+        else if (coluna > atual->coluna) atual = atual->direita;
+        else return atual->valor;
     }
     return NULL;
 }
 
-bool remover_valor(MatrizEsparsa *m, int row, int col) {
-    if (!m || row < 0 || row >= m->rows_count) return false;
+bool remover_valor_matriz(MatrizEsparsa *matriz, int linha, int coluna) {
+    if (!matriz || linha < 0 || linha >= matriz->quantidade_linhas) return false;
 
-    if (obter_valor(m, row, col) == NULL) return false;
+    if (obter_valor_matriz(matriz, linha, coluna) == NULL) return false;
 
-    m->rows[row] = remover_da_arvore(m->rows[row], col);
+    matriz->linhas[linha] = remover_da_arvore(matriz->linhas[linha], coluna);
     return true;
 }
 
-void destruir_matriz_esparsa(MatrizEsparsa *m, void (*free_value)(void*)) {
-    if (!m) return;
-    for (int i = 0; i < m->rows_count; i++) {
-        liberar_arvore_voos(m->rows[i], free_value);
+void destruir_matriz_esparsa(MatrizEsparsa *matriz, void (*liberar_valor)(void*)) {
+    if (!matriz) return;
+    for (int i = 0; i < matriz->quantidade_linhas; i++) {
+        liberar_arvore_voos(matriz->linhas[i], liberar_valor);
     }
-    free(m->rows);
-    free(m);
+    free(matriz->linhas);
+    free(matriz);
 }
