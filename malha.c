@@ -1,5 +1,7 @@
 #include "malha.h"
 
+// O "Grafo" é a união do Vetor de Aeroportos (Vértices) e da Matriz Esparsa (Arestas/Voos)
+
 // procura o índice do aeroporto pelo código
 static int buscar_indice_aeroporto(MalhaAerea *malha, const char *codigo) {
     if (!malha || !codigo) return -1;
@@ -39,8 +41,10 @@ static bool remover_voo_por_numero_recursivo(No *raiz, const char *numero, int l
     return false;
 }
 
+// busca trajetos usando DFS (Depth-First Search / Busca em Profundidade).
+// Esse é o algoritmo clássico de grafos para explorar caminhos.
 static void buscar_trajetos_profundidade(MalhaAerea *malha, int atual, int destino, bool *visitado, Percurso *caminho_atual, bool *encontrado) {
-    visitado[atual] = true;
+    visitado[atual] = true; // Marca o vértice como visitado pra não entrar em loop infinito
     adicionar_ao_percurso(caminho_atual, (Aeroporto*)obter_vetor(malha->aeroportos, atual), NULL);
 
     if (atual == destino) {
@@ -61,7 +65,7 @@ static void buscar_trajetos_profundidade(MalhaAerea *malha, int atual, int desti
         void explorar_vizinhos(No *no) {
             if (!no) return;
             explorar_vizinhos(no->esquerda);
-            int vizinho = no->coluna;
+            int vizinho = no->coluna; // O vizinho é o vértice conectado por uma aresta (voo)
             if (!visitado[vizinho]) {
                 buscar_trajetos_profundidade(malha, vizinho, destino, visitado, caminho_atual, encontrado);
             }
@@ -76,7 +80,7 @@ static void buscar_trajetos_profundidade(MalhaAerea *malha, int atual, int desti
     }
 }
 
-// cria a malha aérea e inicializa as estruturas
+// cria a malha aérea e inicializa as estruturas (o Grafo completo)
 MalhaAerea* criar_malha_aerea() {
     MalhaAerea *malha = (MalhaAerea*)malloc(sizeof(MalhaAerea));
     if (!malha) return NULL;
@@ -97,7 +101,7 @@ void destruir_malha_aerea(MalhaAerea *malha) {
     free(malha);
 }
 
-// cadastra um novo aeroporto
+// cadastra um novo aeroporto (adiciona um Vértice ao grafo)
 bool cadastrar_aeroporto(MalhaAerea *malha, const char *codigo, const char *cidade) {
     if (!malha || !codigo || !cidade) return false;
     if (buscar_indice_aeroporto(malha, codigo) != -1) {
@@ -115,7 +119,7 @@ bool cadastrar_aeroporto(MalhaAerea *malha, const char *codigo, const char *cida
     return true;
 }
 
-// cadastra um voo, impedindo que a origem e o destino sejam iguais
+// cadastra um voo (cria uma Aresta entre dois Vértices do grafo)
 bool cadastrar_voo(MalhaAerea *malha, const char *codigo_origem, const char *codigo_destino, const char *numero_voo) {
     int indice_origem = buscar_indice_aeroporto(malha, codigo_origem);
     int indice_destino = buscar_indice_aeroporto(malha, codigo_destino);

@@ -1,5 +1,9 @@
 #include "matriz_esparsa.h"
 
+// A Matriz Esparsa aqui é a nossa Matriz de Adjacência do grafo.
+// Linhas e Colunas são os índices dos aeroportos. Se tem um valor na posição [i][j],
+// significa que existe uma Aresta (voo) saindo do vértice i para o vértice j.
+
 // cria a matriz esparsa do zero
 MatrizEsparsa* criar_matriz_esparsa() {
     MatrizEsparsa *matriz = (MatrizEsparsa*)malloc(sizeof(MatrizEsparsa));
@@ -36,6 +40,7 @@ static No* criar_no(int coluna, void *valor) {
     return no;
 }
 
+// insere o valor na árvore seguindo a lógica de BST
 static No* inserir_na_arvore(No *raiz, int coluna, void *valor) {
     if (!raiz) return criar_no(coluna, valor);
 

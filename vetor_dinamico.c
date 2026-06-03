@@ -1,5 +1,8 @@
 #include "vetor_dinamico.h"
 
+// O Vetor Dinâmico aqui funciona como a lista de Vértices do nosso grafo.
+// Cada aeroporto cadastrado é um "nó" do grafo.
+
 // cria o vetor dinâmico com tamanho inicial
 VetorDinamico* criar_vetor() {
     VetorDinamico *vetor = (VetorDinamico*)malloc(sizeof(VetorDinamico));
