@@ -118,6 +118,11 @@ bool cadastrar_voo(MalhaAerea *malha, const char *codigo_origem, const char *cod
         return false;
     }
 
+    if (indice_origem == indice_destino) {
+        printf("Erro: Origem e destino nao podem ser o mesmo aeroporto.\n");
+        return false;
+    }
+
     Voo *novo_voo = criar_voo(numero_voo);
     if (!novo_voo) return false;
 
