@@ -1,6 +1,6 @@
 #include "voo.h"
 
-Voo* criar_voo(const char *numero, int duracao, double preco) {
+Voo* criar_voo(const char *numero) {
     if (!numero) return NULL;
 
     Voo *v = (Voo*)malloc(sizeof(Voo));
@@ -8,8 +8,6 @@ Voo* criar_voo(const char *numero, int duracao, double preco) {
 
     strncpy(v->numero_voo, numero, 9);
     v->numero_voo[9] = '\0';
-    v->duracao_minutos = duracao;
-    v->preco = preco;
 
     return v;
 }
@@ -23,5 +21,5 @@ void imprimir_voo(Voo *v) {
         printf("Voo inexistente");
         return;
     }
-    printf("Voo %s (%d min, R$ %.2f)", v->numero_voo, v->duracao_minutos, v->preco);
+    printf("Voo %s", v->numero_voo);
 }

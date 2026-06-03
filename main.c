@@ -13,8 +13,6 @@ int main() {
     inicializar_malha_padrao(malha);
     int opcao;
     char codigo1[10], codigo2[10], numero_voo[20], cidade[100];
-    int duracao;
-    double preco;
 
     do {
         printf("\n--- SISTEMA DE GESTAO DE MALHA AEREA ---\n");
@@ -49,12 +47,8 @@ int main() {
                 scanf("%3s", codigo2);
                 printf("Numero do Voo: ");
                 scanf("%19s", numero_voo);
-                printf("Duracao (min): ");
-                scanf("%d", &duracao);
-                printf("Preco: ");
-                scanf("%lf", &preco);
                 limpar_buffer();
-                cadastrar_voo(malha, codigo1, codigo2, numero_voo, duracao, preco);
+                cadastrar_voo(malha, codigo1, codigo2, numero_voo);
                 break;
             case 3:
                 printf("Numero do Voo para remover: ");

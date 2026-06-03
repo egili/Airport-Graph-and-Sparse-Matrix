@@ -21,7 +21,7 @@ void destruir_malha_aerea(MalhaAerea *malha);
 
 bool cadastrar_aeroporto(MalhaAerea *malha, const char *codigo, const char *cidade);
 
-bool cadastrar_voo(MalhaAerea *malha, const char *codigo_origem, const char *codigo_destino, const char *numero_voo, int duracao, double preco);
+bool cadastrar_voo(MalhaAerea *malha, const char *codigo_origem, const char *codigo_destino, const char *numero_voo);
 
 bool remover_voo_por_numero(MalhaAerea *malha, const char *numero_voo);
 

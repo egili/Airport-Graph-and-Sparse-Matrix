@@ -109,7 +109,7 @@ bool cadastrar_aeroporto(MalhaAerea *malha, const char *codigo, const char *cida
     return true;
 }
 
-bool cadastrar_voo(MalhaAerea *malha, const char *codigo_origem, const char *codigo_destino, const char *numero_voo, int duracao, double preco) {
+bool cadastrar_voo(MalhaAerea *malha, const char *codigo_origem, const char *codigo_destino, const char *numero_voo) {
     int indice_origem = buscar_indice_aeroporto(malha, codigo_origem);
     int indice_destino = buscar_indice_aeroporto(malha, codigo_destino);
 
@@ -118,7 +118,7 @@ bool cadastrar_voo(MalhaAerea *malha, const char *codigo_origem, const char *cod
         return false;
     }
 
-    Voo *novo_voo = criar_voo(numero_voo, duracao, preco);
+    Voo *novo_voo = criar_voo(numero_voo);
     if (!novo_voo) return false;
 
     if (!definir_valor_matriz(malha->matriz, indice_origem, indice_destino, novo_voo)) {
@@ -197,13 +197,13 @@ void inicializar_malha_padrao(MalhaAerea *malha) {
     cadastrar_aeroporto(malha, "GRU", "Sao Paulo");
 
     printf("Cadastrando voos de exemplo...\n");
-    cadastrar_voo(malha, "GRU", "CNF", "G3-101", 60, 250.0);
-    cadastrar_voo(malha, "CNF", "BSB", "G3-202", 45, 180.0);
-    cadastrar_voo(malha, "BSB", "GIG", "G3-303", 90, 300.0);
-    cadastrar_voo(malha, "GIG", "SSA", "G3-404", 120, 400.0);
-    cadastrar_voo(malha, "SSA", "GRU", "G3-505", 150, 500.0);
-    cadastrar_voo(malha, "GRU", "GIG", "G3-606", 60, 200.0);
-    cadastrar_voo(malha, "CNF", "GRU", "G3-707", 60, 220.0);
-    cadastrar_voo(malha, "BSB", "GRU", "G3-808", 80, 280.0);
+    cadastrar_voo(malha, "GRU", "CNF", "G3-101");
+    cadastrar_voo(malha, "CNF", "BSB", "G3-202");
+    cadastrar_voo(malha, "BSB", "GIG", "G3-303");
+    cadastrar_voo(malha, "GIG", "SSA", "G3-404");
+    cadastrar_voo(malha, "SSA", "GRU", "G3-505");
+    cadastrar_voo(malha, "GRU", "GIG", "G3-606");
+    cadastrar_voo(malha, "CNF", "GRU", "G3-707");
+    cadastrar_voo(malha, "BSB", "GRU", "G3-808");
     printf("---------------------------------------\n");
 }

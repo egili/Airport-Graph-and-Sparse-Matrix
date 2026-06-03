@@ -8,11 +8,9 @@
 
 typedef struct {
     char numero_voo[10];
-    int duracao_minutos;
-    double preco;
 } Voo;
 
-Voo* criar_voo(const char *numero, int duracao, double preco);
+Voo* criar_voo(const char *numero);
 void destruir_voo(Voo *v);
 void imprimir_voo(Voo *v);
 
