@@ -8,6 +8,7 @@ void limpar_buffer() {
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
+// função principal do programa
 int main() {
     MalhaAerea *malha = criar_malha_aerea();
     inicializar_malha_padrao(malha);

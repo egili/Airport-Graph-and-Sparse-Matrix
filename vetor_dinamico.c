@@ -1,5 +1,6 @@
 #include "vetor_dinamico.h"
 
+// cria o vetor dinâmico com tamanho inicial
 VetorDinamico* criar_vetor() {
     VetorDinamico *vetor = (VetorDinamico*)malloc(sizeof(VetorDinamico));
     if (!vetor) return NULL;
@@ -13,6 +14,7 @@ VetorDinamico* criar_vetor() {
     return vetor;
 }
 
+// insere um item no vetor, aumenta a capacidade se estiver cheio
 bool inserir_vetor(VetorDinamico *vetor, void *item) {
     if (vetor->tamanho == vetor->capacidade) {
         size_t nova_capacidade = vetor->capacidade * 2;
@@ -25,11 +27,13 @@ bool inserir_vetor(VetorDinamico *vetor, void *item) {
     return true;
 }
 
+// pega o item de um índice específico
 void* obter_vetor(VetorDinamico *vetor, size_t indice) {
     if (indice >= vetor->tamanho) return NULL;
     return vetor->itens[indice];
 }
 
+// remove um item e puxa os outros pra frente
 bool remover_vetor(VetorDinamico *vetor, size_t indice) {
     if (indice >= vetor->tamanho) return false;
 
@@ -40,6 +44,7 @@ bool remover_vetor(VetorDinamico *vetor, size_t indice) {
     return true;
 }
 
+// deleta o vetor e libera a memória
 void destruir_vetor(VetorDinamico *vetor) {
     if (!vetor) return;
     free(vetor->itens);

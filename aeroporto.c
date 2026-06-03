@@ -1,5 +1,6 @@
 #include "aeroporto.h"
 
+// função pra criar o aeroporto
 Aeroporto* criar_aeroporto(const char *codigo, const char *cidade) {
     if (!codigo || !cidade) return NULL;
 

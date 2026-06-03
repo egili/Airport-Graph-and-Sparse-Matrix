@@ -1,5 +1,6 @@
 #include "percurso.h"
 
+// cria a estrutura do percurso
 Percurso* criar_percurso() {
     Percurso *percurso = (Percurso*)malloc(sizeof(Percurso));
     if (!percurso) return NULL;
@@ -10,6 +11,7 @@ Percurso* criar_percurso() {
     return percurso;
 }
 
+// adiciona aeroporto e voo no percurso, expande se precisar
 bool adicionar_ao_percurso(Percurso *percurso, Aeroporto *aeroporto, Voo *voo) {
     if (!percurso || !aeroporto) return false;
 
@@ -29,6 +31,7 @@ bool adicionar_ao_percurso(Percurso *percurso, Aeroporto *aeroporto, Voo *voo) {
     return true;
 }
 
+// printa o percurso na tela
 void imprimir_percurso(Percurso *percurso) {
     if (!percurso || percurso->tamanho == 0) {
         printf("Percurso vazio.\n");
@@ -45,6 +48,7 @@ void imprimir_percurso(Percurso *percurso) {
     printf("\n");
 }
 
+// deleta o percurso e libera a memória
 void destruir_percurso(Percurso *percurso) {
     if (!percurso) return;
     free(percurso->aeroportos);

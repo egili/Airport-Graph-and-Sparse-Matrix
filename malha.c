@@ -1,5 +1,6 @@
 #include "malha.h"
 
+// procura o índice do aeroporto pelo código
 static int buscar_indice_aeroporto(MalhaAerea *malha, const char *codigo) {
     if (!malha || !codigo) return -1;
     VetorDinamico *vetor = malha->aeroportos;
@@ -10,6 +11,7 @@ static int buscar_indice_aeroporto(MalhaAerea *malha, const char *codigo) {
     return -1;
 }
 
+// printa os voos saindo de um aeroporto
 static void imprimir_voos_da_linha(No *raiz, MalhaAerea *malha) {
     if (!raiz) return;
     imprimir_voos_da_linha(raiz->esquerda, malha);
@@ -23,6 +25,7 @@ static void imprimir_voos_da_linha(No *raiz, MalhaAerea *malha) {
     imprimir_voos_da_linha(raiz->direita, malha);
 }
 
+// remove o voo buscando pelo número de forma recursiva
 static bool remover_voo_por_numero_recursivo(No *raiz, const char *numero, int linha, MatrizEsparsa *matriz) {
     if (!raiz) return false;
     Voo *voo = (Voo*)raiz->valor;
@@ -73,6 +76,7 @@ static void buscar_trajetos_profundidade(MalhaAerea *malha, int atual, int desti
     }
 }
 
+// cria a malha aérea e inicializa as estruturas
 MalhaAerea* criar_malha_aerea() {
     MalhaAerea *malha = (MalhaAerea*)malloc(sizeof(MalhaAerea));
     if (!malha) return NULL;
@@ -81,6 +85,7 @@ MalhaAerea* criar_malha_aerea() {
     return malha;
 }
 
+// deleta a malha e libera toda a memória
 void destruir_malha_aerea(MalhaAerea *malha) {
     if (!malha) return;
     VetorDinamico *vetor = malha->aeroportos;
@@ -92,6 +97,7 @@ void destruir_malha_aerea(MalhaAerea *malha) {
     free(malha);
 }
 
+// cadastra um novo aeroporto
 bool cadastrar_aeroporto(MalhaAerea *malha, const char *codigo, const char *cidade) {
     if (!malha || !codigo || !cidade) return false;
     if (buscar_indice_aeroporto(malha, codigo) != -1) {
@@ -109,6 +115,7 @@ bool cadastrar_aeroporto(MalhaAerea *malha, const char *codigo, const char *cida
     return true;
 }
 
+// cadastra um voo, impedindo que a origem e o destino sejam iguais
 bool cadastrar_voo(MalhaAerea *malha, const char *codigo_origem, const char *codigo_destino, const char *numero_voo) {
     int indice_origem = buscar_indice_aeroporto(malha, codigo_origem);
     int indice_destino = buscar_indice_aeroporto(malha, codigo_destino);
@@ -135,6 +142,7 @@ bool cadastrar_voo(MalhaAerea *malha, const char *codigo_origem, const char *cod
     return true;
 }
 
+// remove o voo pelo número, procurando em todas as linhas
 bool remover_voo_por_numero(MalhaAerea *malha, const char *numero_voo) {
     if (!malha || !numero_voo) return false;
 
@@ -148,6 +156,7 @@ bool remover_voo_por_numero(MalhaAerea *malha, const char *numero_voo) {
     return false;
 }
 
+// lista os voos que saem de um aeroporto específico
 void listar_voos_origem(MalhaAerea *malha, const char *codigo_origem) {
     int indice = buscar_indice_aeroporto(malha, codigo_origem);
     if (indice == -1) {
@@ -164,6 +173,7 @@ void listar_voos_origem(MalhaAerea *malha, const char *codigo_origem) {
     imprimir_voos_da_linha(malha->matriz->linhas[indice], malha);
 }
 
+// busca trajetos entre dois aeroportos
 void buscar_trajetos(MalhaAerea *malha, const char *codigo_inicio, const char *codigo_fim) {
     int inicio = buscar_indice_aeroporto(malha, codigo_inicio);
     int fim = buscar_indice_aeroporto(malha, codigo_fim);
@@ -193,6 +203,7 @@ void buscar_trajetos(MalhaAerea *malha, const char *codigo_inicio, const char *c
     free(visitado);
 }
 
+// preenche a malha com dados de exemplo
 void inicializar_malha_padrao(MalhaAerea *malha) {
     printf("--- Inicializando Dados Padrao ---\n");
     cadastrar_aeroporto(malha, "CNF", "Belo Horizonte");

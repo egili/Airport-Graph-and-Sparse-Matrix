@@ -1,5 +1,6 @@
 #include "voo.h"
 
+// cria o voo com o número informado
 Voo* criar_voo(const char *numero) {
     if (!numero) return NULL;
 
@@ -12,10 +13,12 @@ Voo* criar_voo(const char *numero) {
     return v;
 }
 
+// libera a memória do voo
 void destruir_voo(Voo *v) {
     if (v) free(v);
 }
 
+// mostra os dados do voo na tela
 void imprimir_voo(Voo *v) {
     if (!v) {
         printf("Voo inexistente");

@@ -1,5 +1,6 @@
 #include "matriz_esparsa.h"
 
+// cria a matriz esparsa do zero
 MatrizEsparsa* criar_matriz_esparsa() {
     MatrizEsparsa *matriz = (MatrizEsparsa*)malloc(sizeof(MatrizEsparsa));
     if (!matriz) return NULL;
@@ -9,6 +10,7 @@ MatrizEsparsa* criar_matriz_esparsa() {
     return matriz;
 }
 
+// aumenta o tamanho da matriz se precisar
 void expandir_matriz_esparsa(MatrizEsparsa *matriz, int nova_dimensao) {
     if (nova_dimensao <= matriz->quantidade_linhas) return;
 
@@ -24,6 +26,7 @@ void expandir_matriz_esparsa(MatrizEsparsa *matriz, int nova_dimensao) {
     matriz->quantidade_colunas = nova_dimensao;
 }
 
+// cria um nó pra árvore
 static No* criar_no(int coluna, void *valor) {
     No *no = (No*)malloc(sizeof(No));
     if (!no) return NULL;
@@ -46,6 +49,7 @@ static No* inserir_na_arvore(No *raiz, int coluna, void *valor) {
     return raiz;
 }
 
+// busca o menor índice da árvore
 static No* buscar_menor_indice_coluna(No *raiz) {
     No *atual = raiz;
     while (atual && atual->esquerda) {
@@ -54,6 +58,7 @@ static No* buscar_menor_indice_coluna(No *raiz) {
     return atual;
 }
 
+// remove um nó da árvore
 static No* remover_da_arvore(No *raiz, int coluna) {
     if (!raiz) return NULL;
 
@@ -80,6 +85,7 @@ static No* remover_da_arvore(No *raiz, int coluna) {
     return raiz;
 }
 
+// libera a memória da árvore toda
 static void liberar_arvore_voos(No *raiz, void (*liberar_valor)(void*)) {
     if (!raiz) return;
     liberar_arvore_voos(raiz->esquerda, liberar_valor);
@@ -88,6 +94,7 @@ static void liberar_arvore_voos(No *raiz, void (*liberar_valor)(void*)) {
     free(raiz);
 }
 
+// coloca um valor na matriz e expande se for necessário
 bool definir_valor_matriz(MatrizEsparsa *matriz, int linha, int coluna, void *valor) {
     if (linha < 0 || coluna < 0) return false;
 
@@ -98,6 +105,7 @@ bool definir_valor_matriz(MatrizEsparsa *matriz, int linha, int coluna, void *va
     return true;
 }
 
+// tenta pegar o valor na matriz
 void* obter_valor_matriz(MatrizEsparsa *matriz, int linha, int coluna) {
     if (!matriz || linha < 0 || linha >= matriz->quantidade_linhas || coluna < 0 || coluna >= matriz->quantidade_colunas) {
         return NULL;
@@ -112,6 +120,7 @@ void* obter_valor_matriz(MatrizEsparsa *matriz, int linha, int coluna) {
     return NULL;
 }
 
+// remove o valor da matriz
 bool remover_valor_matriz(MatrizEsparsa *matriz, int linha, int coluna) {
     if (!matriz || linha < 0 || linha >= matriz->quantidade_linhas) return false;
 
@@ -121,6 +130,7 @@ bool remover_valor_matriz(MatrizEsparsa *matriz, int linha, int coluna) {
     return true;
 }
 
+// deleta a matriz e libera toda a memória
 void destruir_matriz_esparsa(MatrizEsparsa *matriz, void (*liberar_valor)(void*)) {
     if (!matriz) return;
     for (int i = 0; i < matriz->quantidade_linhas; i++) {
