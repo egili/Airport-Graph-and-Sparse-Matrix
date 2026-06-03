@@ -6,8 +6,8 @@ Voo* criar_voo(const char *numero) {
     Voo *v = (Voo*)malloc(sizeof(Voo));
     if (!v) return NULL;
 
-    strncpy(v->numero_voo, numero, 9);
-    v->numero_voo[9] = '\0';
+    strncpy(v->numero_voo, numero, 19);
+    v->numero_voo[19] = '\0';
 
     return v;
 }

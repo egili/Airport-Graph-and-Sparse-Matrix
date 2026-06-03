@@ -7,7 +7,7 @@
 #include <stdbool.h>
 
 typedef struct {
-    char numero_voo[10];
+    char numero_voo[20];
 } Voo;
 
 Voo* criar_voo(const char *numero);

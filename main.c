@@ -45,7 +45,7 @@ int main() {
                 scanf("%3s", codigo1);
                 printf("Codigo Destino: ");
                 scanf("%3s", codigo2);
-                printf("Numero do Voo: ");
+                printf("Numero do Voo (ex: G3-101, AD4050, Voo-XYZ): ");
                 scanf("%19s", numero_voo);
                 limpar_buffer();
                 cadastrar_voo(malha, codigo1, codigo2, numero_voo);
