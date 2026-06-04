@@ -208,14 +208,13 @@ void buscar_trajetos(MalhaAerea *malha, const char *codigo_inicio, const char *c
 }
 
 void inicializar_malha_padrao(MalhaAerea *malha) {
-    printf("--- Inicializando Dados Padrao ---\n");
+    printf("--- Inicializando ---\n");
 
     cadastrar_aeroporto(malha, "BSB", "Brasilia");
     cadastrar_aeroporto(malha, "CNF", "Belo Horizonte");
     cadastrar_aeroporto(malha, "GIG", "Rio de Janeiro");
     cadastrar_aeroporto(malha, "GRU", "Sao Paulo");
     cadastrar_aeroporto(malha, "SSA", "Salvador");
-
 
     cadastrar_voo(malha, "GRU", "GIG", "089");   
     cadastrar_voo(malha, "GRU", "CNF", "102");   
