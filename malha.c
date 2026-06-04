@@ -207,23 +207,30 @@ void buscar_trajetos(MalhaAerea *malha, const char *codigo_inicio, const char *c
     free(visitado);
 }
 
-// preenche a malha com dados de exemplo
 void inicializar_malha_padrao(MalhaAerea *malha) {
     printf("--- Inicializando Dados Padrao ---\n");
-    cadastrar_aeroporto(malha, "CNF", "Belo Horizonte");
-    cadastrar_aeroporto(malha, "BSB", "Brasilia");
-    cadastrar_aeroporto(malha, "GIG", "Rio de Janeiro");
-    cadastrar_aeroporto(malha, "SSA", "Salvador");
-    cadastrar_aeroporto(malha, "GRU", "Sao Paulo");
 
-    printf("Cadastrando voos de exemplo...\n");
-    cadastrar_voo(malha, "GRU", "CNF", "G3-101");
-    cadastrar_voo(malha, "CNF", "BSB", "G3-202");
-    cadastrar_voo(malha, "BSB", "GIG", "G3-303");
-    cadastrar_voo(malha, "GIG", "SSA", "G3-404");
-    cadastrar_voo(malha, "SSA", "GRU", "G3-505");
-    cadastrar_voo(malha, "GRU", "GIG", "G3-606");
-    cadastrar_voo(malha, "CNF", "GRU", "G3-707");
-    cadastrar_voo(malha, "BSB", "GRU", "G3-808");
+    cadastrar_aeroporto(malha, "BSB", "Brasilia");
+    cadastrar_aeroporto(malha, "CNF", "Belo Horizonte");
+    cadastrar_aeroporto(malha, "GIG", "Rio de Janeiro");
+    cadastrar_aeroporto(malha, "GRU", "Sao Paulo");
+    cadastrar_aeroporto(malha, "SSA", "Salvador");
+
+
+    cadastrar_voo(malha, "GRU", "GIG", "089");   
+    cadastrar_voo(malha, "GRU", "CNF", "102");   
+    cadastrar_voo(malha, "GRU", "BSB", "050");   
+
+    cadastrar_voo(malha, "GIG", "GRU", "090");   
+    cadastrar_voo(malha, "GIG", "CNF", "554");   
+
+    cadastrar_voo(malha, "CNF", "GRU", "101");   
+    cadastrar_voo(malha, "CNF", "GIG", "555");   
+    cadastrar_voo(malha, "CNF", "SSA", "214");   
+
+    cadastrar_voo(malha, "BSB", "SSA", "107");   
+
+    cadastrar_voo(malha, "SSA", "CNF", "215");   
+
     printf("---------------------------------------\n");
 }
